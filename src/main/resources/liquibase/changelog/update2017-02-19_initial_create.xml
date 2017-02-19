@@ -1,0 +1,53 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"
+                   logicalFilePath="update2017-02-19_initial_create.xml">
+
+    <changeSet id="update2017-02-19_initial_create_01" author="i.segodin" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="second_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value="ENGINE=INNODB CHARSET=utf8 COLLATE utf8_general_ci"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="update2017-02-19_initial_create_02" author="i.segodin" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from user where email = 'admin@mailinator.com'</sqlCheck>
+        </preConditions>
+        <insert tableName="user">
+            <column name="first_name" value="Admin"/>
+            <column name="second_name" value="AppTemplate"/>
+            <column name="email" value="admin@mailinator.com"/>
+            <!-- 12345+ using org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder -->
+            <column name="password"
+                    value="$2a$10$RJD3gc9EUBzOP.7UiV9yLOtmn/OwbW.3IkkAdRTzGX.4mrizE3.sy"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
