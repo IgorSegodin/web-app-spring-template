@@ -1,9 +1,6 @@
-
 buildscript {
 	repositories {
 		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -13,17 +10,8 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
-
-idea {
-	module {
-		inheritOutputDirs = false
-		outputDir = file("$buildDir/classes/main/")
-	}
-}
 
 war {
 	baseName = 'web-app-spring-template'
@@ -34,12 +22,6 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
-}
-
-configurations {
-	providedRuntime
 }
 
 dependencies {
@@ -51,15 +33,15 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
 	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-	compile "com.querydsl:querydsl-core:${querydslVersion}"
 	compile "com.querydsl:querydsl-jpa:${querydslVersion}"
-	compile "com.querydsl:querydsl-apt:${querydslVersion}:jpa" // generates java code for Query TODO remove generated java files from build + add generated java to source (to be able to use in code)
-
+	compile "com.querydsl:querydsl-apt:${querydslVersion}:jpa"
 	compile("com.zaxxer:HikariCP:${hikaricpVersion}")
 	compile("org.liquibase:liquibase-core:${liquibaseVersion}")
 
-	runtime("mysql:mysql-connector-java:${mysqlVersion}")
+    compile("mysql:mysql-connector-java:${mysqlVersion}")
+
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
 
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+	testCompile("org.mockito:mockito-core:${mockitoVersion}")
 }
