@@ -6,3 +6,5 @@ out
 
 # Generated sources, for local development, need them only to compile code in IDE
 src/main/generated/*
+
+node_modules

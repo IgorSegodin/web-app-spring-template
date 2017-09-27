@@ -17,8 +17,5 @@ For Intellij Idea
 2) Add folder "src/main/generated" as sources
 
 TODO:
-    Webpack 2
+    Webpack 3
     E-tag resource filter
-
-com/moowork/gradle/gradle-node-plugin/1.1.0/
-classpath("com.moowork.gradle:gradle-node-plugin:1.1.0")

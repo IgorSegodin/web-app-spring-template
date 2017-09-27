@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Template</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+        * {padding: 0; margin: 0; }
+    </style>
+    <script th:inline="javascript">
+        window.AppGlobals = {
+            url: {
+                contextPath: /*[[@{/}]]*/ ''
+            }
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content"></div>
+</body>
+</html>
