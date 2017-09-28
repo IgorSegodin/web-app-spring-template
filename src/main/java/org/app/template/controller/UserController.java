@@ -26,6 +26,6 @@ public class UserController {
         Map<String, Object> ctx = new HashMap<>();
         ctx.put("users", userRepository.findAll());
 
-        return new ModelAndView("user_list", ctx);
+        return new ModelAndView("pages/user_list", ctx);
     }
 }

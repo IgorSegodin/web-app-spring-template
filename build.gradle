@@ -1,3 +1,7 @@
+import java.nio.file.Paths
+
+import static org.codehaus.groovy.runtime.IOGroovyMethods.withCloseable
+
 buildscript {
 	repositories {
 		mavenCentral()
@@ -59,4 +63,52 @@ war {
     version = '0.0.1-SNAPSHOT'
 }
 
-//assemble.dependsOn(npm_install)
+/**
+ *  We don't want gradle to copy javascript resources (and css in the future), because we need only compiled javascript and webpack does copying itself.
+ * */
+processResources {
+    exclude('assets/js/**/*.js')
+    exclude('assets/css/**/*.css')
+}
+String buildTimestamp = getBuildTimestamp()
+
+task bundle(type: NpmTask) {
+    String profile = "dev"
+    args = [
+            'run',
+            "bundle-${profile}",
+            "--profile=${profile}",
+            "--buildTimestamp=${buildTimestamp}"
+    ]
+}
+bundle.dependsOn(processResources)
+bundle.dependsOn(npm_install)
+
+assemble.dependsOn(bundle)
+
+bootRun.dependsOn(bundle)
+
+bootRun {
+    jvmArgs = ["-Dfile.encoding=UTF-8"]
+}
+
+bootRepackage.dependsOn(bundle)
+
+
+// Task for javascript hot reloading, need to invoke manually. Can't use it in 'bundle' task because it blocks thread until stop.
+task bundleWatch(type: NpmTask) {
+    String profile = "dev"
+    args = [
+            'run',
+            "bundle-dev-watch",
+            "--profile=${profile}",
+            "--buildTimestamp=${buildTimestamp}"
+    ]
+}
+
+String getBuildTimestamp() {
+    Date date = new Date()
+    String formattedDate = date.format('yyyyMMddHHmmssSSS')
+    println "Gradle using buildDate: $formattedDate"
+    formattedDate
+}

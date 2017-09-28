@@ -16,16 +16,16 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String getIndex() {
-        return "index";
+        return "pages/index";
     }
 
     @RequestMapping(value = "/403")
     public String error403() {
-        return "403";
+        return "pages/403";
     }
 
     @RequestMapping(value = "/login")
     public String getLogin() {
-        return "login";
+        return "pages/login";
     }
 }
