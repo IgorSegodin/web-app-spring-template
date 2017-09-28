@@ -1,7 +1,3 @@
-import java.nio.file.Paths
-
-import static org.codehaus.groovy.runtime.IOGroovyMethods.withCloseable
-
 buildscript {
 	repositories {
 		mavenCentral()
@@ -70,6 +66,7 @@ processResources {
     exclude('assets/js/**/*.js')
     exclude('assets/css/**/*.css')
 }
+
 String buildTimestamp = getBuildTimestamp()
 
 task bundle(type: NpmTask) {
